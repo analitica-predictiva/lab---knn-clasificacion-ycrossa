@@ -123,7 +123,6 @@ def pregunta_02():
     # Importe la función confusion_matrix de sklearn.metrics
     #from sklearn.metrics import confusion_matrix
     mat = confusion_matrix(y, y_pred)
-    mat[1][0]=10
-    mat[1][1]=158
+
     # Retorne la matriz de confusión
     return mat

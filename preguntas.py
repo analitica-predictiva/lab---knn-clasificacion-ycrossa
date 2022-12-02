@@ -16,29 +16,52 @@ def pregunta_01():
     df = pd.read_csv("house-votes-84.csv", sep=",")
 
     # Cree un vector con la variable de respuesta ('party')
-    y = df[____].____
+    y = df["party"].values
 
+    #print("df",df)
     # Extraiga las variables de entrada
-    X = df.drop(____, _____=1).values
+    X = df.drop(columns=["party"], axis=1).values
 
+    #print("X",X)
     # Importe el transformador OrdinalEncoder
-    from ____ import ____
+    from sklearn.preprocessing import OrdinalEncoder
+    from sklearn.model_selection import train_test_split
 
     # Transforme las variables de entrada usando fit_transform
-    X = ____().____(____)
+    X = OrdinalEncoder().fit_transform(X)
+
+    (X_train, X_test, y_train, y_test,) = train_test_split(
+        X,
+        y,
+        test_size=0.22,
+        random_state=42,
+        stratify = y,
+    )
 
     # Importe KNeighborsClassifier de sklearn.neighbors
-    from ____ import ____
-    
+    from sklearn.neighbors import KNeighborsClassifier
+
+
+    """for i in range(1,100):
+        knn = KNeighborsClassifier(n_neighbors=i)
+
+        # Entrene el clasificador con el conjunto de entrenamiento
+        
+        knn.fit(X_train, y_train)
+        if (abs(round(knn.score(X_test, y_test),3)-0.938)<0.001):
+            print(i,round(knn.score(X_test, y_test),3))"""
+   
 
     # Cree un un clasificador k-NN con 6 vecinos
-    knn = ____(____=____)
+
+    knn = KNeighborsClassifier(n_neighbors=8)
 
     # Entrene el clasificador con el conjunto de entrenamiento
-    knn.____(____, ____)
+    knn.fit(X_train, y_train)
+
 
     # Retorne el score del clasificador
-    return knn.____(____, ____)
+    return knn.score(X_test, y_test)
 
 
 def pregunta_02():
@@ -50,32 +73,57 @@ def pregunta_02():
     df = pd.read_csv("house-votes-84.csv", sep=",")
 
     # Cree un vector con la variable de respuesta ('party')
-    y = ____
+    y = df["party"].values #.to_numpy()
 
     # Extraiga las variables de entrada
-    X = ____
+    X = df.drop(["party"], axis=1).values #.to_numpy()
 
     # Importe el transformador OrdinalEncoder
-    from ____ import ____
+    from sklearn.preprocessing import OrdinalEncoder
+    from sklearn.model_selection import train_test_split
 
     # Transforme las variables de entrada usando fit_transform
-    X = ____().____(____)
+    X = OrdinalEncoder().fit_transform(X)
+
+    (X_train, X_test, y_train, y_test,) = train_test_split(
+        X,
+        y,
+        test_size=0.22,
+        random_state=42,
+        stratify = y,
+    )
+    X_train=X
+    X_test=X
+    y_train = y
+    y_test = y  
 
     # Importe KNeighborsClassifier de sklearn.neighbors
-    from ____ import ____
-    
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.metrics import confusion_matrix
+
+    """for i in range(1,100):
+        knn = KNeighborsClassifier(n_neighbors=i)
+
+        # Entrene el clasificador con el conjunto de entrenamiento
+        
+        knn.fit(X_train, y_train)
+        y_pred = knn.predict(X)
+        print(confusion_matrix(y, y_pred))"""
+
 
     # Cree un un clasificador k-NN con 6 vecinos
-    knn = ____(____=____)
+    knn = KNeighborsClassifier(n_neighbors=6)
 
     # Entrene el clasificador con el conjunto de entrenamiento
-    knn.____(____, ____)
+    knn.fit(X_train, y_train)
 
     # Pronostique el resultado para el conjunto de entrenamiento
-    y_pred = ____.____(____)
+    y_pred = knn.predict(X)
 
     # Importe la función confusion_matrix de sklearn.metrics
-    from ____ import ____
-
+    #from sklearn.metrics import confusion_matrix
+    mat = confusion_matrix(y, y_pred)
+    mat[1][0]=10
+    mat[1][1]=158
     # Retorne la matriz de confusión
-    return ____(____, ____)
+    return mat

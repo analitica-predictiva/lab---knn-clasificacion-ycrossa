@@ -9,11 +9,13 @@ import preguntas
 
 
 def test_01():
-    assert round(preguntas.pregunta_01(), 3) == 0.938
+	#print(preguntas.pregunta_01())
+	assert round(preguntas.pregunta_01(),3)==0.938
 
 
 def test_02():
-    assert preguntas.pregunta_02().tolist() == [[250, 17], [10, 158]]
+	#print(preguntas.pregunta_02().tolist())
+	assert preguntas.pregunta_02().tolist() == [[250, 17], [10, 158]]
 
 
 test = {
